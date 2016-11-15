@@ -1,0 +1,101 @@
+---
+title: 'Reproducible Research: Peer Assessment 1'
+output:
+  html_document:
+    fig_caption: yes
+    keep_md: yes
+    number_sections: yes
+    theme: readable
+    toc: yes
+  pdf_document: 
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+---
+
+
+## Loading and preprocessing the data
+```{r loading and tranforming csv file,  echo=TRUE}
+require(dplyr)
+
+file_url <- "activity.zip"
+temp_file_name <- basename(file_url)
+#download.file(file_url,temp_file_name)
+my.csv.file <- unzip(temp_file_name) %>% read.csv(stringsAsFactors = F) %>% mutate(date = as.POSIXct(date, format="%Y-%m-%d"))
+#file.remove(temp_file_name)
+head(my.csv.file,15)
+```
+
+## What is mean total number of steps taken per day?
+
+```{r Calculating total.steps.daily, echo=TRUE}
+total.steps.daily <- filter(my.csv.file,!is.na(steps)) %>%
+  group_by(date) %>% summarize(steps = sum(steps)) %>%
+  print
+
+```
+
+## What is the average daily activity pattern?
+```{r Histogram of total.steps.daily, echo=TRUE}
+ require(ggplot2)
+ggplot(data = total.steps.daily,aes(steps)) +
+        geom_histogram(binwidth = 999) +
+        labs(x = "steps.daily",y="Frequency")
+```
+## Means and Medians of daily steps 
+```{r}
+mean.median.total.steps.daily <- filter(my.csv.file,!is.na(steps)) %>%
+  group_by(date) %>% summarize(mean.daily.steps = mean(steps),
+                               median.daily.steps = median(steps)) %>%
+                               
+  print
+```
+## Time series plot of the average number of steps taken
+```{r Time series of steps taken, echo=TRUE}
+avg.step <- filter(my.csv.file,!is.na(steps)) %>%
+  group_by(interval) %>% summarise(steps = mean(steps))
+ggplot(avg.step, aes(interval,steps, col= "Red")) + geom_line() 
+
+```
+## The 5-minute interval that, on average, contains the maximum number of steps
+```{r The 5-minute interval contains the maximum number of steps, echo=TRUE}
+  avg.step[which.max(avg.step$steps),]
+```
+## Imputing missing values
+```{r Imputing missing values, echo=TRUE}
+require(mice)
+temp_data <- select(my.csv.file,interval,steps) %>%mice(method="sample") %>% complete()
+date <- my.csv.file$date
+my.csv.file.updated <- mutate(temp_data,date = date)
+```
+
+## Histogram of the total number of steps taken each day after missing values are imputed
+```{r, Histogram of the total number of steps after missing values imputed, echo=TRUE}
+ggplot(data = my.csv.file.updated,aes(steps)) +
+        geom_histogram(binwidth = 250) +
+        labs(x = "steps.daily",y="Frequency")
+```
+## Mean and median after missing values are inserted 
+
+```{r Mean and Median after missing values inserted, echo=TRUE}
+mean.median.total.steps.daily.complete <- group_by(my.csv.file.updated,date) %>% summarize(mean.daily.steps = mean(steps),
+                               median.daily.steps = median(steps)) %>%
+                print               
+```
+
+## Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+```{r extracting weekdays and weekend from date, echo=TRUE}
+week.ends <- c("Saturday","Sunday")
+date.factor <- ifelse(weekdays(my.csv.file$date) %in% week.ends,"Weekends","Weekdays")
+data.with.date.factor <- mutate(my.csv.file,date.factor = as.factor(date.factor))
+mean.steps.daily <- filter(data.with.date.factor,!is.na(steps)) %>%
+group_by(date.factor,interval) %>% summarize(steps = mean(steps)) 
+
+ggplot(mean.steps.daily, aes(interval,steps)) + geom_line() + facet_wrap(~date.factor,nrow = 2,ncol = 1) 
+
+
+
+```
+
+## Are there differences in activity patterns between weekdays and weekends?
+### Yes, the weekdays had more activities than the weekends
