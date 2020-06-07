@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+ This is the build.xml file for building the CtagsInterface plugin.
+ It is based on the standard build.xml file for jEdit plugins.
+-->
+<project name="CtagsInterface" default="build" basedir=".">
+
+	<property file="../build.properties"/>
+	<property name="src.dir" location="src" />
+
+	<property file="build.support" value="../build-support" />
+	<import file="${build.support}/plugin-build.xml" />
+
+
+	<selector id="packageFiles">
+	  <or>
+	    <filename name="icons/*.png" />
+		<filename name="*.txt" />
+		<filename name="description.html" />
+		<filename name="docs/CHANGES.txt" />
+	  </or>
+	 </selector>
+
+	<property name="jar.name"  value="${ant.project.name}.jar"/>
+	<property name="docs-proc.target"  value="xsltproc"/>
+
+	<property name="src.dir" location="${basedir}/src"/>
+	<property name="build.dir" value="build"/>
+
+	<path id="project.class.path">
+		<pathelement location="${jedit.install.dir}/jedit.jar"/>
+		<pathelement location="${jedit.plugins.dir}/ProjectViewer.jar"/>
+		<pathelement location="${jedit.plugins.dir}/SuperAbbrevs.jar"/>
+		<pathelement location="${jedit.plugins.dir}/Navigator.jar"/>
+		<pathelement location="${jedit.plugins.dir}/lucene-core.jar"/>
+		<pathelement location="${jedit.plugins.dir}/lucene-queryparser.jar"/>
+		<pathelement location="${jedit.plugins.dir}/lucene-analyzers-common.jar"/>
+		<pathelement location="${jedit.plugins.dir}/lucene-highlighter.jar"/>
+		<pathelement location="${jedit.plugins.dir}/lucene-memory.jar"/>
+		<pathelement location="${jedit.plugins.dir}/LucenePlugin.jar"/>
+		<pathelement location="${jedit.plugins.dir}/Completion.jar"/>
+		<pathelement location="${jedit.plugins.dir}/SideKick.jar"/>
+		<pathelement location="${jedit.plugins.dir}/CtagsSideKick.jar"/>
+		<pathelement location="${jedit.plugins.dir}/ErrorList.jar"/>
+	</path>
+
+	<target name="tags">
+		<exec executable="ctags">
+			<arg value="-f" />
+			<arg path="tags_" />
+			<arg value="-R" />
+			<arg path="." />
+		</exec>
+	</target>
+
+
+</project>
+
+<!-- :indentSize=4:lineSeparator=\n:noTabs=false:tabSize=4: -->

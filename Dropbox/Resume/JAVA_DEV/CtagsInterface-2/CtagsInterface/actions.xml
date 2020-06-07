@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+<ACTIONS>
+	<ACTION NAME="ctags-interface-add-current-file" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.addCurrentFile(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-update-current-file" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.updateCurrentFile(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-remove-current-file" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.deleteCurrentFile(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-remove-all-tags" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.deleteAll(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-jump-to-tag" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.jumpToTag(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-preview-current" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.previewTag(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-search-tag-by-substring" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.searchTagBySubstring(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-search-tag-by-prefix" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.searchTagByPrefix(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-tag-all-projects" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.tagAllProjects(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-complete-from-db" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.completeFromDb(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-run-query" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.runQuery(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-show-query-dialog" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.showQueryDialog(view);
+		</CODE>
+	</ACTION>
+	<ACTION NAME="ctags-interface-tag-current-project" NO_REPEAT="TRUE">
+		<CODE>
+			ctagsinterface.main.CtagsInterfacePlugin.tagProjectAction(view);
+		</CODE>
+	</ACTION>
+</ACTIONS>
+
